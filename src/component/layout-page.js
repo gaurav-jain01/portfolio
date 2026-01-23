@@ -404,220 +404,220 @@ function Layoutpage() {
             </div>
           ))}
         </div>
-        {/* </section> */}
+      </section>
 
-        {/* Skills Section */}
-        <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="skills">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-              style={{ color: 'var(--accent-color)' }}>
-              Technologies I Work With
-            </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-accent">My Skills</h2>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-items-center">
-            {[
-              { name: "JavaScript", icon: "javascript/javascript-original.svg", color: "#eab308" },
-              { name: "React", icon: "react/react-original.svg", color: "#38bdf8" },
-              { name: "React Native", icon: "react/react-original.svg", color: "#61dafb" },
-              { name: "Node.js", icon: "nodejs/nodejs-original.svg", color: "#22c55e" },
-              { name: "HTML", icon: "html5/html5-original.svg", color: "#f97316" },
-              { name: "CSS", icon: "css3/css3-original.svg", color: "#38bdf8" },
-              { name: "MySQL", icon: "mysql/mysql-original.svg", color: "#0ea5e9" },
-              { name: "Git & Github", icon: "git/git-original.svg", color: "#f97316" },
-              { name: "Tailwind CSS", icon: "tailwindcss/tailwindcss-original.svg", color: "#06b6d4" },
-              { name: "MongoDB", icon: "mongodb/mongodb-original.svg", color: "#47adb5" },
-              { name: "Postman", icon: "postman/postman-original.svg", color: "#ff6c37" },
-              { name: "Next.js", icon: "nextjs/nextjs-original.svg", color: "#6a6666ff" },
-              { name: "Firebase", icon: "firebase/firebase-original.svg", color: "#f59e0b" },
-              { name: "Docker", icon: "docker/docker-original.svg", color: "#2496ed" },
-              { name: "GitHub Actions", icon: "githubactions/githubactions-original.svg", color: "#2088ff" },
+      {/* Skills Section */}
+      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="skills">
+        <div className="text-center mb-16">
+          <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
+            style={{ color: 'var(--accent-color)' }}>
+            Technologies I Work With
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-accent">My Skills</h2>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-items-center">
+          {[
+            { name: "JavaScript", icon: "javascript/javascript-original.svg", color: "#eab308" },
+            { name: "React", icon: "react/react-original.svg", color: "#38bdf8" },
+            { name: "React Native", icon: "react/react-original.svg", color: "#61dafb" },
+            { name: "Node.js", icon: "nodejs/nodejs-original.svg", color: "#22c55e" },
+            { name: "HTML", icon: "html5/html5-original.svg", color: "#f97316" },
+            { name: "CSS", icon: "css3/css3-original.svg", color: "#38bdf8" },
+            { name: "MySQL", icon: "mysql/mysql-original.svg", color: "#0ea5e9" },
+            { name: "Git & Github", icon: "git/git-original.svg", color: "#f97316" },
+            { name: "Tailwind CSS", icon: "tailwindcss/tailwindcss-original.svg", color: "#06b6d4" },
+            { name: "MongoDB", icon: "mongodb/mongodb-original.svg", color: "#47adb5" },
+            { name: "Postman", icon: "postman/postman-original.svg", color: "#ff6c37" },
+            { name: "Next.js", icon: "nextjs/nextjs-original.svg", color: "#6a6666ff" },
+            { name: "Firebase", icon: "firebase/firebase-original.svg", color: "#f59e0b" },
+            { name: "Docker", icon: "docker/docker-original.svg", color: "#2496ed" },
+            { name: "GitHub Actions", icon: "githubactions/githubactions-original.svg", color: "#2088ff" },
 
-            ].map((skill, index) => (
-              <div
-                key={index}
-                className="skill-card group/skill"
-                style={{
-                  borderColor: skill.color,
-                  boxShadow: `0 0 20px 2px ${skill.color}40`,
-                }}
-              >
-                <div className="relative">
-                  <img
-                    src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}`}
-                    alt={skill.name}
-                    className="transition-all duration-300 group-hover/skill:scale-110 group-hover/skill:rotate-6"
-                  />
-                </div>
-                <span className="transition-all duration-300 group-hover/skill:scale-105">{skill.name}</span>
+          ].map((skill, index) => (
+            <div
+              key={index}
+              className="skill-card group/skill"
+              style={{
+                borderColor: skill.color,
+                boxShadow: `0 0 20px 2px ${skill.color}40`,
+              }}
+            >
+              <div className="relative">
+                <img
+                  src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}`}
+                  alt={skill.name}
+                  className="transition-all duration-300 group-hover/skill:scale-110 group-hover/skill:rotate-6"
+                />
               </div>
-            ))}
-          </div>
-        </section>
+              <span className="transition-all duration-300 group-hover/skill:scale-105">{skill.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* Projects Section */}
-        <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="work">
-          <div className="text-center mb-16">
+      {/* Projects Section */}
+      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="work">
+        <div className="text-center mb-16">
+          <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
+            style={{ color: 'var(--accent-color)' }}>
+            Portfolio Showcase
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Projects</h2>
+        </div>
+        <div className="flex flex-wrap justify-center gap-8">
+          <ProjectCard
+            title="ReviveMoto"
+            description="A platform to buy and sell old bikes with secure transactions."
+            techStack={["React", "Tailwind CSS", "Node.js", "MongoDB"]}
+            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
+            liveUrl="https://revivemoto.example.com"
+            githubUrl="https://github.com/gaurav-jain01/revivemoto"
+          />
+          <ProjectCard
+            title="Arduino Compiler"
+            description="A desktop app for compiling and uploading Arduino code easily."
+            techStack={["Electron", "React", "C++", "SerialPort"]}
+            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
+            githubUrl="https://github.com/gaurav-jain01/arduino-compiler"
+          />
+          <ProjectCard
+            title="College Sneek"
+            description="Helps students find and compare colleges quickly."
+            techStack={["React", "Express.js", "MongoDB", "REST API"]}
+            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
+            liveUrl="https://collegesneek.example.com"
+            githubUrl="https://github.com/gaurav-jain01/college-sneek"
+          />
+        </div>
+      </section>
+
+      {/* Footer / Contact Section */}
+      <footer className="w-full mt-20 py-16" style={{ background: 'var(--bg-secondary)' }} id="contact">
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
             <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
               style={{ color: 'var(--accent-color)' }}>
-              Portfolio Showcase
+              Let's Talk
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Projects</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Get in Touch</h2>
           </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            <ProjectCard
-              title="ReviveMoto"
-              description="A platform to buy and sell old bikes with secure transactions."
-              techStack={["React", "Tailwind CSS", "Node.js", "MongoDB"]}
-              image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-              liveUrl="https://revivemoto.example.com"
-              githubUrl="https://github.com/gaurav-jain01/revivemoto"
-            />
-            <ProjectCard
-              title="Arduino Compiler"
-              description="A desktop app for compiling and uploading Arduino code easily."
-              techStack={["Electron", "React", "C++", "SerialPort"]}
-              image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-              githubUrl="https://github.com/gaurav-jain01/arduino-compiler"
-            />
-            <ProjectCard
-              title="College Sneek"
-              description="Helps students find and compare colleges quickly."
-              techStack={["React", "Express.js", "MongoDB", "REST API"]}
-              image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-              liveUrl="https://collegesneek.example.com"
-              githubUrl="https://github.com/gaurav-jain01/college-sneek"
-            />
-          </div>
-        </section>
 
-        {/* Footer / Contact Section */}
-        <footer className="w-full mt-20 py-16" style={{ background: 'var(--bg-secondary)' }} id="contact">
-          <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-            <div className="text-center mb-12">
-              <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-                style={{ color: 'var(--accent-color)' }}>
-                Let's Talk
-              </span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Get in Touch</h2>
+          <div className="flex flex-col md:flex-row gap-8 items-stretch justify-between">
+            {/* Left: Contact Info */}
+            <div className="flex-1 footer-card flex flex-col justify-between min-w-[280px] max-w-[440px]">
+              <div>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-color-primary)' }}>
+                  Let's Connect
+                </h3>
+                <p className="mb-8" style={{ color: 'var(--text-color-secondary)', lineHeight: '1.7' }}>
+                  I'm very approachable and would love to speak to you. Feel free to call,
+                  send me an email, or follow me on social media.
+                </p>
+              </div>
+              <div className="flex flex-col gap-5 mt-auto">
+                <a href="tel:+916376860629" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
+                  <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
+                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
+                    <Phone className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
+                  </span>
+                  <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>+91 6376860629</span>
+                </a>
+                <a href="mailto:jaingau01@gmail.com" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
+                  <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
+                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
+                    <Mail className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
+                  </span>
+                  <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>jaingau01@gmail.com</span>
+                </a>
+                <div className="flex gap-4 mt-6">
+                  <a
+                    href="https://www.linkedin.com/in/gaurav-jain-a61a21203/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
+                  >
+                    <Linkedin size={20} className="text-accent" />
+                  </a>
+                  <a
+                    href="https://github.com/gaurav-jain01"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
+                  >
+                    <Github size={20} className="text-accent" />
+                  </a>
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-8 items-stretch justify-between">
-              {/* Left: Contact Info */}
-              <div className="flex-1 footer-card flex flex-col justify-between min-w-[280px] max-w-[440px]">
-                <div>
-                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-color-primary)' }}>
-                    Let's Connect
-                  </h3>
-                  <p className="mb-8" style={{ color: 'var(--text-color-secondary)', lineHeight: '1.7' }}>
-                    I'm very approachable and would love to speak to you. Feel free to call,
-                    send me an email, or follow me on social media.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-5 mt-auto">
-                  <a href="tel:+916376860629" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
-                    <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
-                      style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
-                      <Phone className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
-                    </span>
-                    <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>+91 6376860629</span>
-                  </a>
-                  <a href="mailto:jaingau01@gmail.com" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
-                    <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
-                      style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
-                      <Mail className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
-                    </span>
-                    <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>jaingau01@gmail.com</span>
-                  </a>
-                  <div className="flex gap-4 mt-6">
-                    <a
-                      href="https://www.linkedin.com/in/gaurav-jain-a61a21203/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
-                      style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
-                    >
-                      <Linkedin size={20} className="text-accent" />
-                    </a>
-                    <a
-                      href="https://github.com/gaurav-jain01"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
-                      style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
-                    >
-                      <Github size={20} className="text-accent" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Contact Form */}
-              <form
-                className="flex-1 footer-card flex flex-col justify-between max-w-lg"
-                onSubmit={handleFormSubmit}
-              >
-                <div>
-                  <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--text-color-primary)' }}>
-                    Send Me a Message
-                  </h3>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleFormChange}
-                    placeholder="Your Name"
-                    className="input mb-4 w-full"
-                    disabled={formLoading}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleFormChange}
-                    placeholder="Your Email Address"
-                    className="input mb-4 w-full"
-                    disabled={formLoading}
-                  />
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleFormChange}
-                    placeholder="Your Message"
-                    className="input h-28 resize-none mb-4 w-full"
-                    disabled={formLoading}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-lg btn-primary w-full mt-2"
+            {/* Right: Contact Form */}
+            <form
+              className="flex-1 footer-card flex flex-col justify-between max-w-lg"
+              onSubmit={handleFormSubmit}
+            >
+              <div>
+                <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--text-color-primary)' }}>
+                  Send Me a Message
+                </h3>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  placeholder="Your Name"
+                  className="input mb-4 w-full"
                   disabled={formLoading}
-                >
-                  {formLoading ? "Sending..." : "Send Message"}
-                </button>
-                {formError && (
-                  <div className="text-red-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
-                    style={{ background: 'rgba(239, 68, 68, 0.1)' }}>
-                    {formError}
-                  </div>
-                )}
-                {formSuccess && (
-                  <div className="text-green-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
-                    style={{ background: 'rgba(34, 197, 94, 0.1)' }}>
-                    Message sent successfully! ✓
-                  </div>
-                )}
-              </form>
-            </div>
-
-            {/* Copyright */}
-            <div className="mt-16 pt-8 text-center border-t" style={{ borderColor: 'var(--border-color)' }}>
-              <p className="text-sm" style={{ color: 'var(--text-color-muted)' }}>
-                © 2024 Gaurav Jain. All rights reserved.
-              </p>
-            </div>
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  placeholder="Your Email Address"
+                  className="input mb-4 w-full"
+                  disabled={formLoading}
+                />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleFormChange}
+                  placeholder="Your Message"
+                  className="input h-28 resize-none mb-4 w-full"
+                  disabled={formLoading}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-lg btn-primary w-full mt-2"
+                disabled={formLoading}
+              >
+                {formLoading ? "Sending..." : "Send Message"}
+              </button>
+              {formError && (
+                <div className="text-red-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
+                  style={{ background: 'rgba(239, 68, 68, 0.1)' }}>
+                  {formError}
+                </div>
+              )}
+              {formSuccess && (
+                <div className="text-green-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
+                  style={{ background: 'rgba(34, 197, 94, 0.1)' }}>
+                  Message sent successfully! ✓
+                </div>
+              )}
+            </form>
           </div>
-        </footer>
+
+          {/* Copyright */}
+          <div className="mt-16 pt-8 text-center border-t" style={{ borderColor: 'var(--border-color)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-color-muted)' }}>
+              © 2024 Gaurav Jain. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
