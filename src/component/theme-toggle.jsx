@@ -9,27 +9,33 @@ const ThemeToggle = () => {
     if (isLight) {
       document.documentElement.setAttribute('data-theme', 'light');
     } else {
-      document.documentElement.removeAttribute('data-theme'); // fallback to :root
+      document.documentElement.removeAttribute('data-theme');
     }
   }, [isLight]);
 
   const toggleTheme = () => {
     setAnimate(true);
     setIsLight(!isLight);
-    setTimeout(() => setAnimate(false), 400); // match animation duration
+    setTimeout(() => setAnimate(false), 400);
   };
 
   return (
     <button
       onClick={toggleTheme}
-      className="focus:outline-none flex items-center justify-center"
+      className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:bg-accent/20"
       aria-label="Toggle theme"
-      style={{ background: 'none', border: 'none', padding: 0 }}
+      style={{ background: 'transparent', border: 'none' }}
     >
       {isLight ? (
-        <Moon className={`w-6 h-6 -mt-1 transition-transform duration-300 ${animate ? 'animate-spin' : ''}`} />
+        <Moon
+          className={`w-5 h-5 text-text transition-transform duration-300 ${animate ? 'rotate-180 scale-110' : ''
+            }`}
+        />
       ) : (
-        <Sun className={`w-6 h-6 -mt-1 transition-transform duration-300 ${animate ? 'animate-spin' : ''}`} />
+        <Sun
+          className={`w-5 h-5 text-text transition-transform duration-300 ${animate ? 'rotate-180 scale-110' : ''
+            }`}
+        />
       )}
     </button>
   );

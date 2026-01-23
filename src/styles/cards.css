@@ -1,31 +1,40 @@
-.container{
-    width: 300px;
-    height: 330px;
-    background-color: var(--primary-color);
-    border-radius: 20px;
-    box-shadow: var(--accent-color);
-    padding: 22px;
-    color: #ffffff;
-    display: inline-block;
-    transition: transform 0.3s ease-in-out;
+/* Project Card Container - Updated for consistent sizing */
+.container {
+  width: 280px;
+  height: 320px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  color: var(--text-color-primary);
+  display: inline-block;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
-.container:hover{
-    animation: smoothBounce 0.8s ease-in-out;;
+
+.container:hover {
+  animation: smoothBounce 0.8s ease-in-out;
+  box-shadow: 0 0 20px 4px var(--accent-glow);
 }
+
 @keyframes smoothBounce {
-    0% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(-12px);
-    }
-    50% {
-      transform: translateY(0);
-    }
-    70% {
-      transform: translateY(-6px);
-    }
-    100% {
-      transform: translateY(0);
-    }
+  0% {
+    transform: translateY(0);
   }
+
+  30% {
+    transform: translateY(-10px);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  70% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

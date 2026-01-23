@@ -1,0 +1,30 @@
+/* Sticky Navbar Shadow */
+.sticky-nav {
+    transition: box-shadow 0.3s ease;
+}
+
+.sticky-nav.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .sticky-nav.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile Menu Scrollbar Styling */
+.mobile-menu-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mobile-menu-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.mobile-menu-sidebar::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+.mobile-menu-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
