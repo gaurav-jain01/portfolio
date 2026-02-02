@@ -2,7 +2,6 @@
 import './App.css';
 import Layoutpage from "./component/layout-page.js"
 
-
 function App() {
   return (
     <div className="App">
