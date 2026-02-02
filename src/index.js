@@ -5,6 +5,8 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'; // ✅ Import BrowserRouter
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+console.log("App component rendered") 
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
