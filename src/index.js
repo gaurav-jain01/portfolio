@@ -8,6 +8,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 console.log("App component rendered");
 console.log("App component rendered test0");
 console.log("App component rendered test1");
+console.log("App component rendered test2");
+
 
 
 
