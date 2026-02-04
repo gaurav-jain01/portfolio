@@ -27,7 +27,7 @@ function Layoutpage() {
     setFormError("");
     setFormSuccess(false);
     if (!formData.name || !formData.email || !formData.message) {
-      setFormError("Please fill in all fields.");
+      setFormError("Please fill in all required fields.");
       return;
     }
     if (!validateEmail(formData.email)) {
