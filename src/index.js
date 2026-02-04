@@ -13,6 +13,8 @@ console.log("App component rendered test3");
 console.log("App component rendered test4");
 console.log("App component rendered test5");
 console.log("App component rendered test6");
+console.log("App component rendered test7");
+
 
 
 
