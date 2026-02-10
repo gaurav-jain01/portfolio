@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ExternalLink, Github } from "lucide-react";
+import Description from "./description";
 
 function ProjectCard({ title, description, techStack, image, liveUrl, githubUrl }) {
   const [hovered, setHovered] = useState(false);
@@ -21,13 +22,14 @@ function ProjectCard({ title, description, techStack, image, liveUrl, githubUrl 
             border: "1px solid var(--border-color)",
           }}
         >
-          <div className="flex-1 flex items-center justify-center w-full">
-            <img
-              src={image || sampleImage}
-              alt={title}
-              className="w-20 h-20 object-contain"
-            />
-          </div>
+         <div className="flex-1 flex items-center justify-center w-full">
+          <img
+            src={image || sampleImage}
+            alt={title}
+            className="w-full max-w-[120px] sm:max-w-[150px] md:max-w-[180px] object-contain"
+          />
+        </div>
+
           <div
             className="w-full py-3 text-center rounded-b-2xl"
             style={{ background: "var(--accent-color)" }}
@@ -58,7 +60,7 @@ function ProjectCard({ title, description, techStack, image, liveUrl, githubUrl 
               className="text-sm mb-4 leading-relaxed"
               style={{ color: "var(--text-color-secondary)" }}
             >
-              {description}
+              <Description description={description} />
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {techStack &&

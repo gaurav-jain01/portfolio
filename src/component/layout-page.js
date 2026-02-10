@@ -6,6 +6,7 @@ import ProjectCard from "./project-cards";
 import { HashLink } from "react-router-hash-link";
 import ThemeToggle from "./theme-toggle";
 import "../styles/navbar.css";
+import repoguardian from "../assets/repoguard.png";
 
 function Layoutpage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -466,20 +467,21 @@ function Layoutpage() {
         </div>
         <div className="flex flex-wrap justify-center gap-8">
           <ProjectCard
-            title="ReviveMoto"
-            description="A platform to buy and sell old bikes with secure transactions."
-            techStack={["React", "Tailwind CSS", "Node.js", "MongoDB"]}
-            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-            liveUrl="https://revivemoto.example.com"
-            githubUrl="https://github.com/gaurav-jain01/revivemoto"
-          />
-          <ProjectCard
             title="Arduino Compiler"
             description="A desktop app for compiling and uploading Arduino code easily."
             techStack={["Electron", "React", "C++", "SerialPort"]}
             image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
             githubUrl="https://github.com/gaurav-jain01/arduino-compiler"
           />
+          <ProjectCard
+            title="RepoGuardian AI"
+           description="AI-powered GitHub bot that performs automated code reviews, adds inline PR comments, and posts review summaries with full webhook verification."
+            techStack={["MERN", "GitHub API", "Webhook", "AI Review Engine"]}
+            image={repoguardian}
+            githubUrl="https://github.com/gaurav-jain01/repoguardian-ai"
+          />
+
+
           <ProjectCard
             title="College Sneek"
             description="Helps students find and compare colleges quickly."
