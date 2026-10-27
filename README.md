@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Gaurav Jain — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive React portfolio with a charcoal and lime visual system, self-hosted fonts, project previews, and Motion for React animations.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+```sh
+npm install
+npm start
+```
 
-### `npm start`
+Open the URL printed by Create React App (normally http://localhost:3000).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Build and checks
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```sh
+npm run build
+npm test -- --watchAll=false --runInBand
+npm run test:browser
+```
 
-### `npm test`
+The browser suite tests the production `build/` directory. Build first. It uses Google Chrome and a Python 3 HTTP server on localhost port 4173, and checks responsive layouts, navigation, themes, project filters, reduced motion, clipboard feedback, education details, and resume availability. Set `PLAYWRIGHT_CHANNEL` to select a different installed browser channel. Screenshots and traces go into the ignored `test-results/` directory. Browser tests require permission to run a local server and Chrome.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Content and behavior
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Edit profile details, projects, skills, professional experience, services, education, and social links in `src/data/portfolio.js`.
+- `public/resume.pdf` is the supplied `Gaurav_Jain.pdf`, served unchanged and downloaded under that filename. Replace this file to update the CV.
+- Both resume controls open a rounded native dialog with a PDF preview, a download button, and a new-tab link for browsers without inline PDF support. Escape, the close button, or a backdrop click dismisses it and returns focus to the opener.
+- The profile uses the owner’s stated 2.5 years of experience. Career dates, responsibilities, skills, education, and contact details are based on the supplied resume. The current CYE role is explicitly marked part-time.
+- Project artwork is an illustrative concept preview, not a product screenshot. Project cards include expandable case studies. GitHub and website links come from the supplied resume; professional projects without a supplied public URL show their case studies without an invented demo link.
+- Contact links open the visitor’s email app; copying the address offers an alternative. No message is claimed to have been sent, and no backend is required.
+- Themes persist in local storage. The header pause button disables decorative motion; the site also respects the operating system’s reduced-motion preference.
+- Motion for React handles section entrances, project filtering, pointer tilt, magnetic buttons, role transitions, and scroll progress. CSS handles the technology ribbon and ambient decoration.

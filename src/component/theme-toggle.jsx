@@ -1,44 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { useMotionPreferences } from './motion';
 
-const ThemeToggle = () => {
-  const [isLight, setIsLight] = useState(false);
-  const [animate, setAnimate] = useState(false);
-
+export default function ThemeToggle() {
+  const { reduced } = useMotionPreferences();
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark'; }
+    catch { return 'dark'; }
+  });
   useEffect(() => {
-    if (isLight) {
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-  }, [isLight]);
-
-  const toggleTheme = () => {
-    setAnimate(true);
-    setIsLight(!isLight);
-    setTimeout(() => setAnimate(false), 400);
-  };
-
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141512' : '#f5f4ed');
+    try { localStorage.setItem('portfolio-theme', theme); } catch { /* Storage may be unavailable. */ }
+  }, [theme]);
   return (
-    <button
-      onClick={toggleTheme}
-      className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:bg-accent/20"
-      aria-label="Toggle theme"
-      style={{ background: 'transparent', border: 'none' }}
-    >
-      {isLight ? (
-        <Moon
-          className={`w-5 h-5 text-text transition-transform duration-300 ${animate ? 'rotate-180 scale-110' : ''
-            }`}
-        />
-      ) : (
-        <Sun
-          className={`w-5 h-5 text-text transition-transform duration-300 ${animate ? 'rotate-180 scale-110' : ''
-            }`}
-        />
-      )}
+    <button className="icon-button theme-toggle" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span key={theme} initial={{ opacity: 0, rotate: reduced ? 0 : -60 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: reduced ? 0 : 60 }} transition={{ duration: reduced ? 0 : 0.15 }}>
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </motion.span>
+      </AnimatePresence>
     </button>
   );
-};
-
-export default ThemeToggle;
+}

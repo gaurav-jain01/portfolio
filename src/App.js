@@ -1,13 +1,7 @@
-// import logo from './logo.svg';
 import './App.css';
-import Layoutpage from "./component/layout-page.js"
+import Layoutpage from './component/layout-page';
+import { MotionProvider } from './component/motion';
 
-function App() {
-  return (
-    <div className="App">
-      <Layoutpage/>
-    </div>
-  );
+export default function App() {
+  return <MotionProvider><Layoutpage /></MotionProvider>;
 }
-
-export default App;

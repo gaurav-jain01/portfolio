@@ -1,627 +1,194 @@
-import React, { useState } from "react";
-import { Phone, Mail, Linkedin, Github, Menu, X } from "lucide-react";
-import { School, BookOpen, Monitor, GraduationCap } from 'lucide-react';
-import myprofile from "../assets/myProfile.png";
-import ProjectCard from "./project-cards";
-import { HashLink } from "react-router-hash-link";
-import ThemeToggle from "./theme-toggle";
-import "../styles/navbar.css";
-import repoguardian from "../assets/repoguard.png";
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react';
+import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Asterisk, Check, Code2, Copy, FileText, Github, Linkedin, MapPin, Menu, Pause, Phone, Play, Plus, X } from 'lucide-react';
+import myprofile from '../assets/myProfile.png';
+import { education, experience, profile, projects, services, skillGroups } from '../data/portfolio';
+import ProjectCard from './project-cards';
+import ThemeToggle from './theme-toggle';
+import ResumeModal from './resume-modal';
+import { MagneticLink, Reveal, Tilt, useMotionPreferences } from './motion';
 
-function Layoutpage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [formLoading, setFormLoading] = useState(false);
-  const [formSuccess, setFormSuccess] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [formError, setFormError] = useState("");
+const navigation = [['work', 'Projects'], ['skills', 'Skills'], ['experience', 'Experience'], ['about', 'About'], ['contact', 'Contact']];
+const roles = ['Full-stack developer', 'React & Node.js', 'AWS deployments'];
 
-  const handleFormChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+function Navigation() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('home');
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
+  const { reduced, paused, systemReduced, toggle } = useMotionPreferences();
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
-  const validateEmail = (email) => {
-    return /^\S+@\S+\.\S+$/.test(email);
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
+    }, { rootMargin: '-15% 0px -65% 0px' });
+    document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setFormError("");
-    setFormSuccess(false);
-    if (!formData.name || !formData.email || !formData.message) {
-      setFormError("Please fill in all required fields.");
-      return;
-    }
-    if (!validateEmail(formData.email)) {
-      setFormError("Please enter a valid email address.");
-      return;
-    }
-    setFormLoading(true);
-    setTimeout(() => {
-      setFormLoading(false);
-      setFormSuccess(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setFormSuccess(false), 2000);
-    }, 2000);
-  };
-
-  const educationData = [
-    {
-      title: "10th Grade",
-      subtitle: "SNSS Kota, 2016",
-      icon: <School size={28} />,
-      description: "Completed secondary education with focus on science and mathematics"
-    },
-    {
-      title: "12th Grade",
-      subtitle: "MGSS Kota, 2018",
-      icon: <BookOpen size={28} />,
-      description: "Higher secondary education in Science stream"
-    },
-    {
-      title: "Bachelor of Computer Applications (BCA)",
-      subtitle: "MIMT Kota, 2021",
-      icon: <Monitor size={28} />,
-      description: "Fundamentals of computer science and application development"
-    },
-    {
-      title: "Master of Computer Applications (MCA)",
-      subtitle: "JECRC University Jaipur, 2024",
-      icon: <GraduationCap size={28} />,
-      description: "Advanced studies in software development and engineering"
-    },
-  ];
+  useEffect(() => {
+    if (!open) return;
+    const onKey = event => {
+      if (event.key === 'Escape') { setOpen(false); menuRef.current?.focus(); }
+    };
+    const onPointer = event => { if (!headerRef.current?.contains(event.target)) setOpen(false); };
+    const onResize = () => { if (window.innerWidth > 800) setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    window.addEventListener('resize', onResize);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointer);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [open]);
 
   return (
-    <div className="min-h-screen bg-bg font-montserrat transition-colors duration-300">
-
-      {/* Navbar */}
-      <nav className="sticky top-0 w-full max-w-6xl mx-auto flex justify-between items-center py-2 px-4 md:px-6 lg:px-8 relative z-50 text-text backdrop-blur-md"
-        style={{ background: 'rgba(var(--bg-color-rgb), 0.9)', borderBottom: '1px solid var(--border-color)' }}>
-        {/* Desktop Menu - Left Side */}
-        <ul className="hidden md:flex space-x-6 md:space-x-10 text-sm font-semibold tracking-wide">
-          <li>
-            <HashLink smooth to="#home" className="transition-all nav-underline hover:text-accent">
-              HOME
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#about" className="transition-all nav-underline hover:text-accent">
-              ABOUT
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#education" className="transition-all nav-underline hover:text-accent">
-              EDUCATION
-            </HashLink>
-          </li>
-
-        </ul>
-
-        {/* Mobile Menu Button - Left Side */}
-        <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg transition-colors hover:bg-primary"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-
-        {/* Logo - Center */}
-        <div className="w-12 h-12 flex items-center justify-center">
-          <div className="w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
-            style={{ background: 'linear-gradient(135deg, var(--accent-color), var(--accent-hover))' }}>
-            <span className="text-xl font-bold text-white">G</span>
-          </div>
-        </div>
-
-        {/* Desktop Menu - Right Side */}
-        <ul className="hidden md:flex space-x-6 md:space-x-10 items-center text-sm font-semibold tracking-wide">
-          <li>
-            <HashLink smooth to="#skills" className="transition-all nav-underline hover:text-accent">
-              SKILLS
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#work" className="transition-all nav-underline hover:text-accent">
-              WORK
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#contact" className="transition-all nav-underline hover:text-accent">
-              CONTACT
-            </HashLink>
-          </li>
-          <li>
-            <ThemeToggle />
-          </li>
-        </ul>
-
-        {/* Mobile Menu - Right Side (Theme Toggle) */}
-        <div className="md:hidden">
+    <header className="site-header" ref={headerRef}>
+      <motion.div className="scroll-progress" style={{ scaleX: reduced ? scrollYProgress : progress }} aria-hidden="true" />
+      <div className="header-inner page-width">
+        <a href="#home" className="wordmark" aria-label="Gaurav Jain, home" onClick={() => setOpen(false)}>gaurav<span>.</span><span className="wordmark-suffix">/ dev</span></a>
+        <nav className="desktop-nav" aria-label="Main navigation">{navigation.map(([id, label]) => <a key={id} href={`#${id}`} aria-current={active === id ? 'location' : undefined} className={active === id ? 'active' : ''}>{label}</a>)}</nav>
+        <div className="header-actions">
+          {!systemReduced && <button className="icon-button motion-toggle" onClick={toggle} aria-label={paused ? 'Resume animations' : 'Pause animations'} title={paused ? 'Resume animations' : 'Pause animations'}>{paused ? <Play size={16} /> : <Pause size={16} />}</button>}
           <ThemeToggle />
+          <a className="header-contact" href={`mailto:${profile.email}`}>Let’s talk <ArrowUpRight size={16} /></a>
+          <button ref={menuRef} className="icon-button menu-toggle" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? 'Close menu' : 'Open menu'}>{open ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* Mobile Menu Sidebar */}
-      <div
-        className={`mobile-menu-sidebar fixed top-0 right-0 w-64 z-50 md:hidden transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        style={{
-          height: '50vh',
-          maxHeight: '500px',
-          background: 'var(--card-bg)',
-          borderLeft: '1px solid var(--border-color)',
-          borderBottomLeftRadius: '1.5rem',
-          boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.2)',
-          overflowY: 'auto'
-        }}
-      >
-        {/* Close Button */}
-        <div className="flex justify-end p-4">
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-10 h-10 flex items-center justify-center rounded-lg transition-colors hover:bg-primary text-white"
-            aria-label="Close menu"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Mobile Navigation Links */}
-        <ul className="flex flex-col space-y-2 px-6 pt-4 text-white">
-          <li>
-            <HashLink
-              smooth
-              to="#home"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              HOME
-            </HashLink>
-          </li>
-          <li>
-            <HashLink
-              smooth
-              to="#about"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              ABOUT
-            </HashLink>
-          </li>
-          <li>
-            <HashLink
-              smooth
-              to="#education"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              EDUCATION
-            </HashLink>
-          </li>
-          <li>
-            <HashLink
-              smooth
-              to="#skills"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              SKILLS
-            </HashLink>
-          </li>
-          <li>
-            <HashLink
-              smooth
-              to="#work"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              WORK
-            </HashLink>
-          </li>
-          <li>
-            <HashLink
-              smooth
-              to="#contact"
-              className="block py-3 px-4 rounded-lg transition-all hover:bg-primary hover:text-accent font-semibold"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              CONTACT
-            </HashLink>
-          </li>
-        </ul>
       </div>
-
-      {/* Hero Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-12" id="home">
-        <div className="flex-1 flex flex-col gap-4">
-          <div className="inline-block">
-            <span className="text-sm font-semibold tracking-wider uppercase px-4 py-2 rounded-full inline-block mb-2"
-              style={{
-                background: 'var(--accent-glow)',
-                color: 'var(--accent-color)',
-                border: '1px solid var(--accent-color)'
-              }}>
-              👋 Welcome to my portfolio
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight"
-            style={{
-              background: 'linear-gradient(135deg, var(--text-color-primary) 0%, var(--accent-color) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-            Software Developer
-          </h1>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent">
-            Gaurav Jain
-          </h2>
-          <div className="flex items-center gap-2 text-lg font-medium opacity-80" style={{ color: 'var(--text-color-secondary)' }}>
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-            </svg>
-            Based in Jaipur, India
-          </div>
-          <p className="text-base md:text-lg leading-relaxed max-w-lg opacity-90" style={{ color: 'var(--text-color-secondary)' }}>
-            Passionate about creating beautiful, functional, and user-friendly applications.
-            Specializing in full-stack development with modern technologies.
-          </p>
-          <div className="flex gap-4 mt-8">
-            <a
-              href="mailto:jaingau01@gmail.com"
-              className="btn btn-lg btn-secondary flex items-center gap-2 group"
-            >
-              <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
-              Hire Me
-            </a>
-            <a
-              href="/resume.pdf"
-              download
-              className="btn btn-lg btn-primary flex items-center gap-2 group"
-            >
-              <svg className="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Download Resume Here
-            </a>
-          </div>
-        </div>
-        <div className="flex-1 flex justify-center md:justify-end relative">
-          <div className="relative group">
-            <div className="absolute -inset-1 rounded-3xl opacity-75 blur-xl transition-all duration-500 group-hover:opacity-100 group-hover:blur-2xl"
-              style={{ background: 'linear-gradient(135deg, var(--accent-color), var(--accent-hover))' }}>
-            </div>
-            <img
-              src={myprofile}
-              alt="Gaurav Jain"
-              className="relative w-[240px] h-[320px] md:w-[280px] md:h-[380px] rounded-3xl object-cover shadow-2xl transition-transform duration-500 group-hover:scale-105"
-              style={{ border: '4px solid var(--accent-color)' }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="about">
-        <div className="card p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
-          <div className="flex-shrink-0">
-            <div className="relative group">
-              <div className="absolute -inset-1 rounded-3xl opacity-60 blur-lg transition-all duration-500 group-hover:opacity-100 group-hover:blur-xl"
-                style={{ background: 'linear-gradient(135deg, var(--accent-color), var(--accent-hover))' }}>
-              </div>
-              <img
-                src={myprofile}
-                alt="Gaurav Jain"
-                className="relative w-[200px] h-[280px] md:w-[240px] md:h-[340px] rounded-3xl object-cover shadow-xl"
-                style={{ border: '3px solid var(--accent-color)' }}
-              />
-            </div>
-          </div>
-          <div className="flex-1 flex flex-col items-start justify-center gap-6">
-            <div>
-              <span className="text-sm font-semibold tracking-wider uppercase mb-2 inline-block"
-                style={{ color: 'var(--accent-color)' }}>
-                Get to know me
-              </span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-accent mb-4">About Me</h2>
-            </div>
-            <p className="text-justify leading-relaxed text-base md:text-lg"
-              style={{ color: 'var(--text-color-secondary)' }}>
-              I am a <span className="font-semibold text-accent">Software Developer</span> with over one year of experience in Front-End Development
-              and a growing proficiency in Full Stack Development. I'm eager to learn, improve,
-              and take on new challenges. I am looking for an opportunity where I can apply my
-              skills, gain valuable experience, and work on meaningful projects that contribute
-              to both my personal growth and the success of the company.
-            </p>
-            <p className="text-justify leading-relaxed text-base md:text-lg"
-              style={{ color: 'var(--text-color-secondary)' }}>
-              In addition to my front-end and full stack expertise, I can help you build a wide range of software
-              solutions, including <span className="font-semibold text-accent">web applications</span>, <span className="font-semibold text-accent">desktop applications</span>, <span className="font-semibold text-accent">websites</span>, and <span className="font-semibold text-accent">mobile applications</span>.
-            </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#contact" className="btn btn-md btn-primary">
-                Let's Connect
-              </a>
-              <a href="#work" className="btn btn-md btn-secondary">
-                View Projects
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Education Section */}
-      <section className="w-full max-w-5xl mx-auto px-4 md:px-6 py-20" id="education">
-        <div className="text-center mb-16">
-          <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-            style={{ color: 'var(--accent-color)' }}>
-            My Journey
-          </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Education</h2>
-        </div>
-
-        <div className="space-y-6">
-          {educationData.map((edu, index) => (
-            <div
-              key={index}
-              className="card p-6 md:p-8 hover:shadow-glow transition-all duration-300 group cursor-pointer"
-              style={{
-                borderLeft: '4px solid var(--accent-color)',
-              }}
-            >
-              <div className="flex gap-4 md:gap-6 items-start">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                    style={{
-                      background: 'var(--accent-glow)',
-                      border: '2px solid var(--accent-color)',
-                      color: 'var(--accent-color)' // This colors the icon
-                    }}
-                  >
-                    {edu.icon}
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl md:text-2xl font-bold text-accent mb-2 group-hover:translate-x-1 transition-transform">
-                    {edu.title}
-                  </h3>
-                  <p className="font-semibold mb-2" style={{ color: 'var(--text-color-primary)' }}>
-                    {edu.subtitle}
-                  </p>
-                  <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-color-secondary)' }}>
-                    {edu.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="skills">
-        <div className="text-center mb-16">
-          <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-            style={{ color: 'var(--accent-color)' }}>
-            Technologies I Work With
-          </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-accent">My Skills</h2>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-items-center">
-          {[
-            { name: "JavaScript", icon: "javascript/javascript-original.svg", color: "#eab308" },
-            { name: "React", icon: "react/react-original.svg", color: "#38bdf8" },
-            { name: "React Native", icon: "react/react-original.svg", color: "#61dafb" },
-            { name: "Node.js", icon: "nodejs/nodejs-original.svg", color: "#22c55e" },
-            { name: "HTML", icon: "html5/html5-original.svg", color: "#f97316" },
-            { name: "CSS", icon: "css3/css3-original.svg", color: "#38bdf8" },
-            { name: "MySQL", icon: "mysql/mysql-original.svg", color: "#0ea5e9" },
-            { name: "Git & Github", icon: "git/git-original.svg", color: "#f97316" },
-            { name: "Tailwind CSS", icon: "tailwindcss/tailwindcss-original.svg", color: "#06b6d4" },
-            { name: "MongoDB", icon: "mongodb/mongodb-original.svg", color: "#47adb5" },
-            { name: "Postman", icon: "postman/postman-original.svg", color: "#ff6c37" },
-            { name: "Next.js", icon: "nextjs/nextjs-original.svg", color: "#6a6666ff" },
-            { name: "Firebase", icon: "firebase/firebase-original.svg", color: "#f59e0b" },
-            { name: "Docker", icon: "docker/docker-original.svg", color: "#2496ed" },
-            { name: "GitHub Actions", icon: "githubactions/githubactions-original.svg", color: "#2088ff" },
-
-          ].map((skill, index) => (
-            <div
-              key={index}
-              className="skill-card group/skill"
-              style={{
-                borderColor: skill.color,
-                boxShadow: `0 0 20px 2px ${skill.color}40`,
-              }}
-            >
-              <div className="relative">
-                <img
-                  src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}`}
-                  alt={skill.name}
-                  className="transition-all duration-300 group-hover/skill:scale-110 group-hover/skill:rotate-6"
-                />
-              </div>
-              <span className="transition-all duration-300 group-hover/skill:scale-105">{skill.name}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-20" id="work">
-        <div className="text-center mb-16">
-          <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-            style={{ color: 'var(--accent-color)' }}>
-            Portfolio Showcase
-          </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Projects</h2>
-        </div>
-        <div className="flex flex-wrap justify-center gap-8">
-          <ProjectCard
-            title="Arduino Compiler"
-            description="A desktop app for compiling and uploading Arduino code easily."
-            techStack={["Electron", "React", "C++", "SerialPort"]}
-            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-            githubUrl="https://github.com/gaurav-jain01/arduino-compiler"
-          />
-          <ProjectCard
-            title="RepoGuardian AI"
-           description="AI-powered GitHub bot that performs automated code reviews, adds inline PR comments, and posts review summaries with full webhook verification."
-            techStack={["MERN", "GitHub API", "Webhook", "AI Review Engine"]}
-            image={repoguardian}
-            githubUrl="https://github.com/gaurav-jain01/repoguardian-ai"
-          />
-
-
-          <ProjectCard
-            title="College Sneek"
-            description="Helps students find and compare colleges quickly."
-            techStack={["React", "Express.js", "MongoDB", "REST API"]}
-            image="data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='5' width='18' height='12' rx='2' fill='%23a78bfa'/%3E%3Crect x='1' y='17' width='22' height='2' rx='1' fill='%236366f1'/%3E%3Crect x='7' y='9' width='10' height='2' rx='1' fill='%23fff'/%3E%3Crect x='7' y='13' width='6' height='2' rx='1' fill='%23fff'/%3E%3C/svg%3E"
-            liveUrl="https://collegesneek.example.com"
-            githubUrl="https://github.com/gaurav-jain01/college-sneek"
-          />
-        </div>
-      </section>
-
-      {/* Footer / Contact Section */}
-      <footer className="w-full mt-20 py-16" style={{ background: 'var(--bg-secondary)' }} id="contact">
-        <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <span className="text-sm font-semibold tracking-wider uppercase inline-block mb-2"
-              style={{ color: 'var(--accent-color)' }}>
-              Let's Talk
-            </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-accent">Get in Touch</h2>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-8 items-stretch justify-between">
-            {/* Left: Contact Info */}
-            <div className="flex-1 footer-card flex flex-col justify-between min-w-[280px] max-w-[440px]">
-              <div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-color-primary)' }}>
-                  Let's Connect
-                </h3>
-                <p className="mb-8" style={{ color: 'var(--text-color-secondary)', lineHeight: '1.7' }}>
-                  I'm very approachable and would love to speak to you. Feel free to call,
-                  send me an email, or follow me on social media.
-                </p>
-              </div>
-              <div className="flex flex-col gap-5 mt-auto">
-                <a href="tel:+916376860629" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
-                  <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
-                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
-                    <Phone className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
-                  </span>
-                  <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>+91 6376860629</span>
-                </a>
-                <a href="mailto:jaingau01@gmail.com" className="flex items-center gap-4 group cursor-pointer transition-transform hover:translate-x-2">
-                  <span className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300"
-                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}>
-                    <Mail className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
-                  </span>
-                  <span className="font-medium" style={{ color: 'var(--text-color-primary)' }}>jaingau01@gmail.com</span>
-                </a>
-                <div className="flex gap-4 mt-6">
-                  <a
-                    href="https://www.linkedin.com/in/gaurav-jain-a61a21203/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
-                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
-                  >
-                    <Linkedin size={20} className="text-accent" />
-                  </a>
-                  <a
-                    href="https://github.com/gaurav-jain01"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
-                    style={{ background: 'var(--accent-glow)', border: '1px solid var(--accent-color)' }}
-                  >
-                    <Github size={20} className="text-accent" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Contact Form */}
-            <form
-              className="flex-1 footer-card flex flex-col justify-between max-w-lg"
-              onSubmit={handleFormSubmit}
-            >
-              <div>
-                <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--text-color-primary)' }}>
-                  Send Me a Message
-                </h3>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFormChange}
-                  placeholder="Your Name"
-                  className="input mb-4 w-full"
-                  disabled={formLoading}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleFormChange}
-                  placeholder="Your Email Address"
-                  className="input mb-4 w-full"
-                  disabled={formLoading}
-                />
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleFormChange}
-                  placeholder="Your Message"
-                  className="input h-28 resize-none mb-4 w-full"
-                  disabled={formLoading}
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-lg btn-primary w-full mt-2"
-                disabled={formLoading}
-              >
-                {formLoading ? "Sending..." : "Send Message"}
-              </button>
-              {formError && (
-                <div className="text-red-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
-                  style={{ background: 'rgba(239, 68, 68, 0.1)' }}>
-                  {formError}
-                </div>
-              )}
-              {formSuccess && (
-                <div className="text-green-400 text-center mt-4 text-sm font-medium px-4 py-2 rounded-lg"
-                  style={{ background: 'rgba(34, 197, 94, 0.1)' }}>
-                  Message sent successfully! ✓
-                </div>
-              )}
-            </form>
-          </div>
-
-          {/* Copyright */}
-          <div className="mt-16 pt-8 text-center border-t" style={{ borderColor: 'var(--border-color)' }}>
-            <p className="text-sm" style={{ color: 'var(--text-color-muted)' }}>
-              © 2024 Gaurav Jain. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <AnimatePresence>{open && <motion.nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: reduced ? 0 : 0.22 }}>{navigation.map(([id, label], i) => <a key={id} href={`#${id}`} onClick={() => setOpen(false)} aria-current={active === id ? 'location' : undefined}><span aria-hidden="true">0{i + 1}</span>{label}<ArrowUpRight size={19} /></a>)}</motion.nav>}</AnimatePresence>
+    </header>
   );
 }
 
-export default Layoutpage;
+function Hero({ onOpenResume }) {
+  const [role, setRole] = useState(0);
+  const { reduced } = useMotionPreferences();
+  useEffect(() => {
+    if (reduced) return;
+    const interval = setInterval(() => setRole(value => (value + 1) % roles.length), 3400);
+    return () => clearInterval(interval);
+  }, [reduced]);
+
+  return (
+    <section className="hero page-width" id="home" aria-labelledby="hero-heading">
+      <div className="hero-main">
+        <div className="hero-copy">
+          <Reveal><p className="eyebrow hero-eyebrow"><span className="status-dot" />{profile.experienceYears} YEARS OF HANDS-ON DEVELOPMENT</p></Reveal>
+          <Reveal delay={0.08}><h1 id="hero-heading"><span className="hero-name">{profile.name}</span>Full-Stack<br /><span className="accent-text">Developer<span className="hero-period">.</span></span></h1></Reveal>
+          <Reveal delay={0.16}><p className="hero-focus">React, Node.js &amp; Cloud</p><p className="hero-description">I build web applications, robust APIs, and practical software products—from React interfaces to backend services and AWS deployments.</p></Reveal>
+          <Reveal className="hero-buttons" delay={0.24}><MagneticLink className="button button-primary" href="#work">View projects <ArrowDownRight size={19} /></MagneticLink><button type="button" className="text-link resume-link resume-trigger" onClick={onOpenResume} aria-haspopup="dialog">View resume <FileText size={16} /></button><a href="#contact" className="text-link">Contact me <ArrowUpRight size={16} /></a></Reveal>
+          <Reveal className="hero-location" delay={0.3}><MapPin size={14} /><span>{profile.location}</span><span className="location-divider" /><span>Open to opportunities</span></Reveal>
+        </div>
+        <Reveal className="hero-visual" delay={0.15}>
+          <Tilt className="portrait-stage">
+            <div className="portrait-grid" aria-hidden="true" />
+            <div className="portrait-circle" aria-hidden="true" />
+            <div className="orbit orbit-one" aria-hidden="true" /><div className="orbit orbit-two" aria-hidden="true" />
+            <span className="floating-code code-top" aria-hidden="true">&lt;/&gt;</span>
+            <Asterisk className="hero-asterisk" size={76} strokeWidth={1.1} aria-hidden="true" />
+            <img className="hero-portrait" src={myprofile} alt="Illustrated portrait of Gaurav Jain" width="1024" height="1536" fetchPriority="high" />
+            <div className="portrait-name" aria-hidden="true"><span>GAURAV JAIN</span><ArrowUpRight size={18} /></div>
+            <div className="developer-badge"><span className="badge-icon"><Code2 size={23} /></span><div><span className="badge-label">WEB · MOBILE · DESKTOP</span><div className="role-container" aria-hidden="true"><AnimatePresence mode="wait" initial={false}><motion.strong key={role} initial={{ opacity: 0, y: reduced ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : -10 }} transition={{ duration: reduced ? 0 : 0.2 }}>{roles[role]}</motion.strong></AnimatePresence></div><span className="sr-only">{profile.title}</span></div><span className="status-dot" /></div>
+          </Tilt>
+        </Reveal>
+      </div>
+      <div className="hero-bottom"><span>FROM FRONTEND INTERFACES TO BACKEND INFRASTRUCTURE.</span><a href="#work">SCROLL TO EXPLORE <ArrowDown size={15} /></a></div>
+    </section>
+  );
+}
+
+function TechRibbon() {
+  const stack = ['React', 'Node.js', 'MongoDB', 'REST APIs', 'AWS', 'Next.js'];
+  return <div className="tech-ribbon"><div className="ribbon-track">{[0, 1].map(copy => <div className="ribbon-group" key={copy} aria-hidden={copy === 1 ? 'true' : undefined}>{stack.map(name => <span key={name}>{name}<Asterisk size={23} strokeWidth={1.2} aria-hidden="true" /></span>)}</div>)}</div></div>;
+}
+
+function Work() {
+  const [filter, setFilter] = useState('All projects');
+  const { reduced } = useMotionPreferences();
+  const visible = projects.filter(project => filter === 'All projects' || project.category === filter);
+  return (
+    <section id="work" className="section page-width" aria-labelledby="work-heading">
+      <Reveal><div className="section-label"><span>01 / SELECTED WORK</span><span>PERSONAL PROJECTS & PROFESSIONAL CONTRIBUTIONS</span></div><div className="section-heading-row"><h2 id="work-heading">Ideas, made <span className="muted-text">real.</span></h2><p>Real products, clear responsibilities,<br className="desktop-break" /> and the engineering behind each one.</p></div></Reveal>
+      <Reveal><div className="project-filters" role="group" aria-label="Filter projects">{['All projects', 'Web & AI', 'Desktop'].map(item => <button key={item} onClick={() => setFilter(item)} aria-pressed={filter === item} className={filter === item ? 'selected' : ''}>{filter === item && <motion.span className="filter-highlight" layoutId="project-filter" transition={{ duration: reduced ? 0 : 0.25 }} />}<span>{item}</span>{item === 'All projects' && <small aria-hidden="true">{String(projects.length).padStart(2, '0')}</small>}</button>)}</div></Reveal>
+      <p className="sr-only" role="status">Showing {visible.length} projects</p>
+      <motion.div layout={!reduced} className="project-grid"><AnimatePresence mode="popLayout">{visible.map(project => <ProjectCard key={project.id} project={project} />)}</AnimatePresence></motion.div>
+      <Reveal className="more-work"><span>Always experimenting. Always building.</span><a className="text-link" href={profile.github} target="_blank" rel="noreferrer">More on GitHub <ArrowUpRight size={17} /></a></Reveal>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="about-section" aria-labelledby="about-heading"><div className="page-width about-grid">
+      <Reveal className="about-intro"><p className="eyebrow">05 / THE PERSON BEHIND THE PRODUCTS</p><h2 id="about-heading">Curious mind.<br />Builder <span className="accent-text">at heart.</span></h2><div className="about-signature"><Asterisk size={54} strokeWidth={1.2} /><span>Good work starts<br />with a little curiosity.</span></div></Reveal>
+      <Reveal className="about-copy" delay={0.12}><p className="about-lead">I take ideas from interface to API to deployment.</p><p>I’m a full-stack developer based in Jaipur with {profile.experienceYears} years of experience building web, mobile, and desktop applications. My work spans e-commerce, learning platforms, service applications, and developer tools.</p><p>I work across React interfaces, Node.js APIs, authentication, databases, and AWS deployments. I enjoy understanding how a product fits together, making its workflows dependable, and using AI where it helps people get useful work done.</p><div className="about-facts"><div><strong>{profile.experienceYears}</strong><span>Years of experience</span></div><div><strong>{String(projects.length).padStart(2, '0')}</strong><span>Selected projects</span></div><div><strong>MCA</strong><span>Computer applications</span></div></div><a href="#contact" className="text-link">Let’s build something together <ArrowUpRight size={18} /></a></Reveal>
+    </div></section>
+  );
+}
+
+function Skills() {
+  return (
+    <section id="skills" className="section page-width skills-section" aria-labelledby="skills-heading"><Reveal><div className="section-label"><span>02 / MY TOOLKIT</span><span>THE RIGHT TOOLS FOR THE IDEA</span></div><div className="section-heading-row"><h2 id="skills-heading">The full stack.<br /><span className="muted-text">The whole picture.</span></h2><p>Frontend, backend, data, and deployment.<br className="desktop-break" /> A toolkit built through hands-on work.</p></div></Reveal>
+      <div className="skill-list">{skillGroups.map((group, i) => <Reveal className="skill-row" key={group.label} delay={i * 0.06}><span className="skill-number">/{group.number}</span><div className="skill-title"><span>{group.label}</span><h3>{group.title}</h3></div><ul>{group.skills.map(skill => <li key={skill}>{skill}</li>)}</ul></Reveal>)}</div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="experience-section" aria-labelledby="experience-heading">
+      <div className="page-width">
+        <Reveal><div className="section-label"><span>03 / PROFESSIONAL EXPERIENCE</span><span>{profile.experienceYears} YEARS BUILDING PRODUCTS</span></div><div className="section-heading-row"><h2 id="experience-heading">Real teams.<br /><span className="muted-text">Real responsibility.</span></h2><p>Web, mobile, and desktop development,<br className="desktop-break" /> from product features to infrastructure.</p></div></Reveal>
+        <div className="experience-list">{experience.map((job, index) => (
+          <Reveal className="experience-row" key={job.company} delay={index * 0.06}>
+            <div className="experience-meta"><span>{job.period}</span><p>{job.location}{job.type && <> · <span className="employment-type">{job.type}</span></>}</p></div>
+            <div className="experience-content"><p className="experience-role">{job.role}</p><h3>{job.company}</h3><ul>{job.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}</ul></div>
+          </Reveal>
+        ))}</div>
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section id="services" className="section page-width" aria-labelledby="services-heading">
+      <Reveal><div className="section-label"><span>04 / HOW I CAN HELP</span><span>FOR TEAMS & FREELANCE CLIENTS</span></div><div className="section-heading-row"><h2 id="services-heading">Your next idea.<br /><span className="muted-text">My kind of challenge.</span></h2><a href="#contact" className="text-link">Discuss a project <ArrowUpRight size={18} /></a></div></Reveal>
+      <div className="services-grid">{services.map((service, index) => <Reveal className="service-card" key={service.number} delay={index * 0.05}><span className="service-number">/{service.number}</span><h3>{service.title}</h3><p>{service.description}</p><span className="service-tags">{service.tags}</span></Reveal>)}</div>
+    </section>
+  );
+}
+
+function Journey() {
+  return (
+    <section id="education" className="section page-width journey-section" aria-labelledby="journey-heading"><Reveal className="journey-intro"><p className="eyebrow">06 / EDUCATION</p><h2 id="journey-heading">Always a<br /><span className="muted-text">student.</span></h2><p>A foundation in computer applications.<br />A habit of never stopping learning.</p></Reveal><div className="timeline">{education.map((item, i) => <Reveal key={item.year} delay={i * 0.05}><details className="education-item" open={i === 0 ? true : undefined}><summary><span className="education-year">{item.year}</span><div><h3>{item.degree}</h3><p>{item.school}</p><span className="education-period">{item.period}</span></div><Plus className="education-plus" size={20} /></summary><p className="education-detail">{item.detail}</p></details></Reveal>)}</div></section>
+  );
+}
+
+function Contact({ onOpenResume }) {
+  const [copyStatus, setCopyStatus] = useState('');
+  const timer = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const copyEmail = async () => {
+    clearTimeout(timer.current);
+    try { await navigator.clipboard.writeText(profile.email); setCopyStatus('Email copied!'); }
+    catch { setCopyStatus('Select the email address to copy it, or click it to open your email app.'); }
+    timer.current = setTimeout(() => setCopyStatus(''), 5000);
+  };
+  return (
+    <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="page-width">
+      <Reveal><div className="contact-top"><p className="eyebrow"><span className="status-dot" /> OPEN TO OPPORTUNITIES</p><span>07 / SAY HELLO</span></div><div className="contact-title-row"><h2 id="contact-heading">Have a good idea?<br /><span>Let’s make it happen.</span></h2><MagneticLink href={`mailto:${profile.email}`} className="contact-orb" aria-label="Email Gaurav Jain"><ArrowUpRight size={65} strokeWidth={1.3} /></MagneticLink></div></Reveal>
+      <Reveal className="contact-bottom"><div><p>For full-stack roles, React projects, or freelance collaborations.</p><div className="email-row"><a href={`mailto:${profile.email}`}>{profile.email}</a><button className="icon-button" onClick={copyEmail} aria-label="Copy email address">{copyStatus === 'Email copied!' ? <Check size={18} /> : <Copy size={18} />}</button></div><p className="copy-status" role="status">{copyStatus}</p></div><div className="contact-links"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} />GitHub <ArrowUpRight size={15} /></a><a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} />LinkedIn <ArrowUpRight size={15} /></a><a href={profile.phoneHref}><Phone size={16} />{profile.phone} <ArrowUpRight size={15} /></a><button type="button" className="contact-resume" onClick={onOpenResume} aria-haspopup="dialog">Resume <FileText size={15} /></button></div></Reveal>
+    </div></section>
+  );
+}
+
+export default function Layoutpage() {
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const openResume = () => setResumeOpen(true);
+
+  return <><a className="skip-link" href="#main">Skip to content</a><Navigation /><main id="main"><Hero onOpenResume={openResume} /><TechRibbon /><Work /><Skills /><Experience /><Services /><About /><Journey /><Contact onOpenResume={openResume} /></main><footer className="site-footer page-width"><a href="#home" className="wordmark" aria-label="Back to home">gaurav<span>.</span></a><p>© {new Date().getFullYear()} Gaurav Jain. Crafted with care & a little code.</p><a href="#home" className="back-top">Back to top <ArrowUp size={15} /></a></footer>{resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}</>;
+}
